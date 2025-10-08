@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProrailTestpagina</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input, select, button {
+      margin: 10px;
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    #output, #checkedText, #selectedColorText, #dropdownColorText {
+      margin: 10px auto;
+      padding: 10px;
+      width: 250px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      min-height: 30px;
+    }
+
+    .color-options, .checkbox-section {
+      margin: 20px 0;
+    }
+
+    .animal-img {
+      width: 120px;
+      height: auto;
+      display: none;
+      margin: 10px;
+    }
+
+    .checkbox-item {
+      display: inline-block;
+      text-align: center;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ProrailTestpagina</h1>
+
+  <!-- Tekstveld -->
+  <input type="text" id="inputField" placeholder="Typ hier iets...">
+  <div id="output"></div>
+
+  <!-- Button met checktekst -->
+  <button id="checkButton">Klik hier</button>
+  <div id="checkedText"></div>
+
+  <!-- Radiobuttons kleuren -->
+  <div class="color-options">
+    <h3>Kies een kleur (radiobuttons):</h3>
+    <label><input type="radio" name="kleur" value="Paars"> Paars</label>
+    <label><input type="radio" name="kleur" value="Geel"> Geel</label>
+    <label><input type="radio" name="kleur" value="Roze"> Roze</label>
+    <label><input type="radio" name="kleur" value="Blauw"> Blauw</label>
+    <div id="selectedColorText"></div>
+  </div>
+
+  <!-- Dropdown kleuren -->
+  <div>
+    <h3>Kies een kleur (dropdown):</h3>
+    <select id="colorDropdown">
+      <option value="">-- Kies een kleur --</option>
+      <option value="Paars">Paars</option>
+      <option value="Geel">Geel</option>
+      <option value="Roze">Roze</option>
+      <option value="Blauw">Blauw</option>
+    </select>
+    <div id="dropdownColorText"></div>
+  </div>
+
+  <!-- Checkboxes dieren -->
+  <div class="checkbox-section">
+    <h3>Kies een dier:</h3>
+
+    <div class="checkbox-item">
+      <label><input type="checkbox" id="elephant"> Olifant</label><br>
+      <img id="elephantImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg" alt="Olifant">
+    </div>
+
+    <div class="checkbox-item">
+      <label><input type="checkbox" id="penguin"> Pinguïn</label><br>
+      <img id="penguinImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Aptenodytes_forsteri_-Snow_Hill_Island%2C_Antarctica_-adults-8.jpg" alt="Pinguïn">
+    </div>
+
+    <div class="checkbox-item">
+      <label><input type="checkbox" id="wolf"> Wolf</label><br>
+      <img id="wolfImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/0/07/Canis_lupus_laying.jpg" alt="Wolf">
+    </div>
+
+    <div class="checkbox-item">
+      <label><input type="checkbox" id="merel"> Merel</label><br>
+      <img id="merelImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Turdus_merula_male2.jpg" alt="Merel">
+    </div>
+  </div>
+
+  <script>
+    // Woord laten verschijnen
+    const inputField = document.getElementById('inputField');
+    const outputDiv = document.getElementById('output');
+    inputField.addEventListener('input', () => {
+      outputDiv.textContent = inputField.value;
+    });
+
+    // Check-button
+    const checkButton = document.getElementById('checkButton');
+    const checkedText = document.getElementById('checkedText');
+    checkButton.addEventListener('click', () => {
+      checkedText.textContent = "✅ Tekst is gecheckt!";
+    });
+
+    // Radiobuttons kleuren
+    const radios = document.querySelectorAll('input[name="kleur"]');
+    const selectedColorText = document.getElementById('selectedColorText');
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        selectedColorText.textContent = `Geselecteerde kleur: ${radio.value}`;
+      });
+    });
+
+    // Dropdown kleuren
+    const colorDropdown = document.getElementById('colorDropdown');
+    const dropdownColorText = document.getElementById('dropdownColorText');
+    colorDropdown.addEventListener('change', () => {
+      dropdownColorText.textContent = colorDropdown.value ? `Geselecteerde kleur: ${colorDropdown.value}` : '';
+    });
+
+    // Checkboxes dieren
+    const animals = ['elephant', 'penguin', 'wolf', 'merel'];
+    animals.forEach(animal => {
+      const checkbox = document.getElementById(animal);
+      const img = document.getElementById(animal + 'Img');
+      checkbox.addEventListener('change', () => {
+        img.style.display = checkbox.checked ? 'block' : 'none';
+      });
+    });
+  </script>
+
+</body>
+</html>
