@@ -5,45 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ProrailTestpagina</title>
   <style>
+    /* ===== Algemene stijl ===== */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: #f8f8f8;
+      color: #222;
       margin: 0;
-      padding: 20px;
-      text-align: center;
+      padding: 0;
     }
 
-    h1 {
-      color: #333;
+    header {
+      background-color: #e2001a;
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h3 {
+      color: #e2001a;
+      margin-top: 30px;
     }
 
     input, select, button {
-      margin: 10px;
-      padding: 8px;
+      margin: 8px 0;
+      padding: 10px;
       font-size: 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid #ccc;
+      width: 80%;
+      max-width: 300px;
+    }
+
+    button {
+      background-color: #e2001a;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #c10014;
     }
 
     #output, #checkedText, #selectedColorText, #dropdownColorText {
       margin: 10px auto;
       padding: 10px;
-      width: 250px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      width: 80%;
+      max-width: 300px;
+      background-color: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
       min-height: 30px;
+      text-align: center;
     }
 
     .color-options, .checkbox-section {
-      margin: 20px 0;
+      margin: 25px 0;
     }
 
+    label {
+      margin: 0 8px;
+      font-size: 16px;
+    }
+
+    /* ===== Dierenafbeeldingen ===== */
     .animal-img {
-      width: 120px;
+      width: 150px;
       height: auto;
       display: none;
       margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
 
     .checkbox-item {
@@ -51,33 +96,43 @@
       text-align: center;
       margin: 10px;
     }
+
+    footer {
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+      margin: 40px 0 20px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>ProrailTestpagina</h1>
+  <header>ProrailTestpagina</header>
 
-  <!-- Tekstveld -->
-  <input type="text" id="inputField" placeholder="Typ hier iets...">
-  <div id="output"></div>
+  <main>
 
-  <!-- Button met checktekst -->
-  <button id="checkButton">Klik hier</button>
-  <div id="checkedText"></div>
+    <!-- Typveld -->
+    <h3>1️⃣ Typ iets</h3>
+    <input type="text" id="inputField" placeholder="Typ hier iets...">
+    <div id="output"></div>
 
-  <!-- Radiobuttons kleuren -->
-  <div class="color-options">
-    <h3>Kies een kleur (radiobuttons):</h3>
-    <label><input type="radio" name="kleur" value="Paars"> Paars</label>
-    <label><input type="radio" name="kleur" value="Geel"> Geel</label>
-    <label><input type="radio" name="kleur" value="Roze"> Roze</label>
-    <label><input type="radio" name="kleur" value="Blauw"> Blauw</label>
-    <div id="selectedColorText"></div>
-  </div>
+    <!-- Button met checktekst -->
+    <h3>2️⃣ Klik op de knop</h3>
+    <button id="checkButton">Klik hier</button>
+    <div id="checkedText"></div>
 
-  <!-- Dropdown kleuren -->
-  <div>
-    <h3>Kies een kleur (dropdown):</h3>
+    <!-- Radiobuttons kleuren -->
+    <h3>3️⃣ Kies een kleur (radiobuttons)</h3>
+    <div class="color-options">
+      <label><input type="radio" name="kleur" value="Paars"> Paars</label>
+      <label><input type="radio" name="kleur" value="Geel"> Geel</label>
+      <label><input type="radio" name="kleur" value="Roze"> Roze</label>
+      <label><input type="radio" name="kleur" value="Blauw"> Blauw</label>
+      <div id="selectedColorText"></div>
+    </div>
+
+    <!-- Dropdown kleuren -->
+    <h3>4️⃣ Kies een kleur (dropdown)</h3>
     <select id="colorDropdown">
       <option value="">-- Kies een kleur --</option>
       <option value="Paars">Paars</option>
@@ -86,32 +141,34 @@
       <option value="Blauw">Blauw</option>
     </select>
     <div id="dropdownColorText"></div>
-  </div>
 
     <!-- Checkboxes dieren -->
-  <div class="checkbox-section">
-    <h3>Kies een dier:</h3>
+    <h3>5️⃣ Vink een dier aan</h3>
+    <div class="checkbox-section">
+      <div class="checkbox-item">
+        <label><input type="checkbox" id="elephant"> Olifant</label><br>
+        <img id="elephantImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg" alt="Olifant">
+      </div>
 
-  <div class="checkbox-item">
-      <label><input type="checkbox" id="elephant"> Olifant</label><br>
-      <img id="elephantImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg" alt="Olifant">
+      <div class="checkbox-item">
+        <label><input type="checkbox" id="penguin"> Pinguïn</label><br>
+        <img id="penguinImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Humboldt-Pinguin_Spheniscus_humboldti_Tierpark_Hellabrunn-12.jpg" alt="Pinguïn">
+      </div>
+
+      <div class="checkbox-item">
+        <label><input type="checkbox" id="wolf"> Wolf</label><br>
+        <img id="wolfImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Loup_gris_%28Canis_lupus_%29.jpg" alt="Wolf">
+      </div>
+
+      <div class="checkbox-item">
+        <label><input type="checkbox" id="merel"> Merel</label><br>
+        <img id="merelImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Turdus_merula_1308.jpg" alt="Merel">
+      </div>
     </div>
 
-    <div class="checkbox-item">
-      <label><input type="checkbox" id="penguin"> Pinguïn</label><br>
-      <img id="penguinImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Humboldt-Pinguin_Spheniscus_humboldti_Tierpark_Hellabrunn-12.jpg" alt="Pinguïn">
-    </div>
+  </main>
 
-    <div class="checkbox-item">
-      <label><input type="checkbox" id="wolf"> Wolf</label><br>
-      <img id="wolfImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Loup_gris_%28Canis_lupus_%29.jpg" alt="Wolf">
-    </div>
-
-    <div class="checkbox-item">
-      <label><input type="checkbox" id="merel"> Merel</label><br>
-      <img id="merelImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Turdus_merula_1308.jpg" alt="Merel">
-    </div>
-  </div>
+  <footer>© 2025 ProrailTestpagina – Demo-omgeving</footer>
 
   <script>
     // Woord laten verschijnen
