@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <title>ControlePagina</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
       margin: 0;
-      font-family: "Arial", sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #f3f3f3;
       color: #333;
       text-align: center;
@@ -27,9 +28,7 @@
       text-decoration: none;
       margin-left: 20px;
     }
-    nav a:hover {
-      text-decoration: underline;
-    }
+    nav a:hover { text-decoration: underline; }
 
     .container {
       max-width: 900px;
@@ -60,6 +59,7 @@
       color: white;
       border: none;
       cursor: pointer;
+      user-select: none;
     }
 
     #output {
@@ -76,7 +76,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <nav>
@@ -88,66 +87,88 @@
   </nav>
 
   <div class="container">
-
     <h2>Controlepagina – Onderliggende Pagina</h2>
 
     <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Koala_climbing_tree.jpg" alt="Koala">
 
     <h3>Typ iets</h3>
     <input type="text" id="textInput" placeholder="Typ hier...">
-    <div id="output"></div>
+    <div id="output" aria-live="polite"></div>
 
     <h3>Check button (alleen rechtermuisklik!)</h3>
-    <button id="checkBtn">Check</button>
-    <p id="checkResult"></p>
+    <!-- extra oncontextmenu attribute als backup -->
+    <button id="checkBtn" oncontextmenu="return false;">Check</button>
+    <p id="checkResult" role="status"></p>
 
     <h3>Dubbelklik-knop</h3>
     <button id="doubleBtn">Dubbelklik op mij</button>
-    <p id="doubleResult"></p>
+    <p id="doubleResult" role="status"></p>
 
     <br><br>
     <a href="index.html">⬅️ Terug naar hoofdpagina</a>
-
   </div>
 
   <script>
-    /* --- Tekstspiegeling --- */
-    const textInput = document.getElementById("textInput");
-    const output = document.getElementById("output");
+    // wacht tot DOM klaar is
+    document.addEventListener('DOMContentLoaded', () => {
+      const textInput = document.getElementById('textInput');
+      const output = document.getElementById('output');
 
-    textInput.addEventListener("input", () => {
-      output.textContent = textInput.value;
-    });
+      const checkBtn = document.getElementById('checkBtn');
+      const checkResult = document.getElementById('checkResult');
 
-    /* --- Rechtermuisklik button --- */
-    const checkBtn = document.getElementById("checkBtn");
-    const checkResult = document.getElementById("checkResult");
+      const doubleBtn = document.getElementById('doubleBtn');
+      const doubleResult = document.getElementById('doubleResult');
 
-    checkBtn.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      checkResult.style.color = "green";
-      checkResult.textContent = "✔️ Rechtermuisklik gedetecteerd! Check uitgevoerd.";
-    });
+      // live tekst spiegeling
+      textInput.addEventListener('input', () => {
+        output.textContent = textInput.value;
+      });
 
-    checkBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      checkResult.style.color = "red";
-      checkResult.textContent = "❌ Gebruik een rechtermuisklik!";
-    });
+      // --- Rechtermuisklik handler (robust) ---
+      function doCheckAction() {
+        checkResult.style.color = 'green';
+        checkResult.textContent = '✔️ Rechtermuisklik gedetecteerd! Check uitgevoerd.';
+      }
 
-    /* --- Dubbelklik button --- */
-    const doubleBtn = document.getElementById("doubleBtn");
-    const doubleResult = document.getElementById("doubleResult");
+      // contextmenu event — verhindert standaardmenu en stopt verdere handlers
+      checkBtn.addEventListener('contextmenu', function(e) {
+        // alleen handelen als de event target daadwerkelijk de knop is
+        if (e.target === checkBtn) {
+          e.preventDefault();               // voorkomt standaard contextmenu
+          e.stopImmediatePropagation();     // voorkomt dat andere handlers het nog overschrijven
+          doCheckAction();
+        }
+      }, { passive: false });
 
-    doubleBtn.addEventListener("dblclick", () => {
-      doubleResult.style.color = "blue";
-      doubleResult.textContent = "✔️ Dubbelklik gedetecteerd!";
-    });
+      // linkermuisklik op knop blokkeren en instructie tonen
+      checkBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        checkResult.style.color = 'red';
+        checkResult.textContent = '❌ Gebruik een *rechtermuisklik* om te checken!';
+      });
 
-    doubleBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      doubleResult.style.color = "red";
-      doubleResult.textContent = "❌ Dubbelklik vereist!";
+      // --- Dubbelklik handler (robust) ---
+      doubleBtn.addEventListener('dblclick', function(e) {
+        // voorkom dat dubbele clicks ook een enkel-klik handler "overrulen" onbedoeld
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        doubleResult.style.color = 'blue';
+        doubleResult.textContent = '✔️ Dubbelklik gedetecteerd!';
+      });
+
+      // voorkomen dat enkele klik de bedoeling is
+      doubleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        doubleResult.style.color = 'red';
+        doubleResult.textContent = '❌ Dubbelklik vereist!';
+      });
+
+      // Extra debug: als gebruiker per ongeluk buiten de knop rechtsklikt,
+      // laat standaard contextmenu intact (we blokkeren alleen op de knop).
+      // (Geen global contextmenu prevent, dus navigatie-menu blijft mogelijk buiten knop.)
     });
   </script>
 
