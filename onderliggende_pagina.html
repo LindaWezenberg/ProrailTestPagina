@@ -12,14 +12,12 @@
       text-align: center;
     }
 
-    /* Navigatiebalk */
     nav {
       background-color: #E2001A;
       color: white;
       padding: 15px;
       font-size: 22px;
       font-weight: bold;
-      text-align: left;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -49,7 +47,7 @@
       margin-bottom: 20px;
     }
 
-    input, button, select {
+    input, button {
       padding: 12px;
       margin: 10px;
       font-size: 18px;
@@ -81,7 +79,6 @@
 
 <body>
 
-  <!-- Navigatie -->
   <nav>
     <div>ProRail Testomgeving</div>
     <div>
@@ -94,19 +91,16 @@
 
     <h2>Controlepagina – Onderliggende Pagina</h2>
 
-    <!-- Koala afbeelding -->
     <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Koala_climbing_tree.jpg" alt="Koala">
 
     <h3>Typ iets</h3>
     <input type="text" id="textInput" placeholder="Typ hier...">
     <div id="output"></div>
 
-    <!-- Rechtermuisklik-knop -->
     <h3>Check button (alleen rechtermuisklik!)</h3>
     <button id="checkBtn">Check</button>
     <p id="checkResult"></p>
 
-    <!-- Dubbelklik-knop -->
     <h3>Dubbelklik-knop</h3>
     <button id="doubleBtn">Dubbelklik op mij</button>
     <p id="doubleResult"></p>
@@ -154,3 +148,8 @@
       e.preventDefault();
       doubleResult.style.color = "red";
       doubleResult.textContent = "❌ Dubbelklik vereist!";
+    });
+  </script>
+
+</body>
+</html>
