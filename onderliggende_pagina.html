@@ -35,6 +35,32 @@
       font-size: 26px;
     }
 
+    /* Navigatiebalk */
+    nav {
+      background-color: white;
+      padding: 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    nav a {
+      margin: 0 20px;
+      font-size: 18px;
+      text-decoration: none;
+      color: #e2001a;
+      font-weight: bold;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      border-bottom: 3px solid #e2001a;
+    }
+
+    nav a.active {
+      border-bottom: 3px solid #e2001a;
+    }
+
     /* Hoofdcontainer */
     main {
       max-width: 700px;
@@ -96,20 +122,6 @@
       font-weight: bold;
     }
 
-    /* Terug link */
-    a.back-link {
-      display: inline-block;
-      margin-top: 30px;
-      font-size: 18px;
-      text-decoration: none;
-      color: #e2001a;
-      font-weight: bold;
-    }
-
-    a.back-link:hover {
-      text-decoration: underline;
-    }
-
   </style>
 </head>
 <body>
@@ -119,11 +131,18 @@
     <h1>Onderliggende Pagina</h1>
   </header>
 
+  <!-- Navigatiebalk -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="onderliggende_pagina.html" class="active">Controlepagina</a>
+  </nav>
+
   <main>
 
     <h2>Plaatje ter controle</h2>
 
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg" alt="Controlerend plaatje">
+    <!-- Koala plaatje -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Koala_climbing_tree.jpg" alt="Koala">
 
     <h3>Typ iets</h3>
     <input type="text" id="textInput" placeholder="Typ hier...">
@@ -132,8 +151,6 @@
     <h3>Check button</h3>
     <button id="checkBtn">Check</button>
     <p id="checkResult"></p>
-
-    <a href="index.html" class="back-link">⬅️ Terug naar de hoofdpagina</a>
 
   </main>
 
