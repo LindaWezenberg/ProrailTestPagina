@@ -2,9 +2,8 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>ControlePagina</title>
+  <title>Onderliggende Pagina - ProRail</title>
   <style>
-    /* --- ProRail stijlen --- */
     body {
       margin: 0;
       font-family: "Arial", sans-serif;
@@ -15,7 +14,7 @@
 
     /* Navigatiebalk */
     nav {
-      background-color: #E2001A; /* ProRail rood */
+      background-color: #E2001A;
       color: white;
       padding: 15px;
       font-size: 22px;
@@ -29,13 +28,11 @@
       color: white;
       text-decoration: none;
       margin-left: 20px;
-      font-weight: normal;
     }
     nav a:hover {
       text-decoration: underline;
     }
 
-    /* Content gebied */
     .container {
       max-width: 900px;
       margin: 30px auto;
@@ -74,7 +71,7 @@
       min-height: 30px;
     }
 
-    #checkResult {
+    #checkResult, #doubleResult {
       font-size: 20px;
       margin-top: 15px;
       font-weight: bold;
@@ -84,7 +81,7 @@
 
 <body>
 
-  <!-- Navigatiebalk -->
+  <!-- Navigatie -->
   <nav>
     <div>ProRail Testomgeving</div>
     <div>
@@ -97,23 +94,30 @@
 
     <h2>Controlepagina – Onderliggende Pagina</h2>
 
-    <!-- Koala plaatje -->
+    <!-- Koala afbeelding -->
     <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Koala_climbing_tree.jpg" alt="Koala">
 
     <h3>Typ iets</h3>
     <input type="text" id="textInput" placeholder="Typ hier...">
     <div id="output"></div>
 
+    <!-- Rechtermuisklik-knop -->
     <h3>Check button (alleen rechtermuisklik!)</h3>
     <button id="checkBtn">Check</button>
     <p id="checkResult"></p>
 
+    <!-- Dubbelklik-knop -->
+    <h3>Dubbelklik-knop</h3>
+    <button id="doubleBtn">Dubbelklik op mij</button>
+    <p id="doubleResult"></p>
+
     <br><br>
     <a href="index.html">⬅️ Terug naar hoofdpagina</a>
+
   </div>
 
   <script>
-    /* --- Tekstspiegelen --- */
+    /* --- Tekstspiegeling --- */
     const textInput = document.getElementById("textInput");
     const output = document.getElementById("output");
 
@@ -121,24 +125,32 @@
       output.textContent = textInput.value;
     });
 
-    /* --- Rechtermuisklik checkbutton --- */
+    /* --- Rechtermuisklik button --- */
     const checkBtn = document.getElementById("checkBtn");
     const checkResult = document.getElementById("checkResult");
 
-    // Rechtsklik activeert de check
     checkBtn.addEventListener("contextmenu", (e) => {
-      e.preventDefault(); // blokkeert standaard contextmenu
+      e.preventDefault();
       checkResult.style.color = "green";
       checkResult.textContent = "✔️ Rechtermuisklik gedetecteerd! Check uitgevoerd.";
     });
 
-    // Linkerklik → melding geven
     checkBtn.addEventListener("click", (e) => {
       e.preventDefault();
       checkResult.style.color = "red";
-      checkResult.textContent = "❌ Gebruik een *rechtermuisklik* om te checken!";
+      checkResult.textContent = "❌ Gebruik een rechtermuisklik!";
     });
-  </script>
 
-</body>
-</html>
+    /* --- Dubbelklik button --- */
+    const doubleBtn = document.getElementById("doubleBtn");
+    const doubleResult = document.getElementById("doubleResult");
+
+    doubleBtn.addEventListener("dblclick", () => {
+      doubleResult.style.color = "blue";
+      doubleResult.textContent = "✔️ Dubbelklik gedetecteerd!";
+    });
+
+    doubleBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      doubleResult.style.color = "red";
+      doubleResult.textContent = "❌ Dubbelklik vereist!";
