@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ProrailTestpagina</title>
+<nav>
+  <a href="index.html" class="active">Home</a>
+  <a href="onderliggende_pagina.html">Controlepagina</a>
+</nav>
+
   <style>
     /* ===== Algemene stijl ===== */
     body {
@@ -22,6 +27,31 @@
       font-size: 28px;
       font-weight: bold;
       letter-spacing: 1px;
+    }
+    nav {
+      background-color: white;
+      padding: 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    nav a {
+      margin: 0 20px;
+      font-size: 18px;
+      text-decoration: none;
+      color: #e2001a;
+      font-weight: bold;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
+    }
+    
+    nav a:hover {
+      border-bottom: 3px solid #e2001a;
+    }
+    
+    nav a.active {
+      border-bottom: 3px solid #e2001a;
     }
 
     main {
