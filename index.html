@@ -1,16 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ProrailTestpagina</title>
-  <style>
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background-color: #f8f8f8;
-      color: #222;
-      margin: 0;
+  <title>Pr      margin: 0;  <title>ProrailTestpagina</title>
       padding: 0;
     }
 
@@ -25,10 +18,13 @@
     }
 
     nav {
+      position: sticky; /* Sticky navigatie */
+      top: 0;
       background-color: white;
       padding: 10px 0;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       text-align: center;
+      z-index: 1000;
     }
 
     nav a {
@@ -122,14 +118,11 @@
 </head>
 <body>
 
-
-<body>
   <header>ProrailTestpagina</header>
   <nav>
     index.htmlHome</a>
-    <a href="onderliggendetmlControlepagina</a>
+    onderliggende_pagina.htmlControlepagina</a>
   </nav>
-
 
   <main>
     <!-- Typveld -->
@@ -235,3 +228,8 @@
   </script>
 </body>
 </html>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: #f8f8f8;
+      color: #222;
