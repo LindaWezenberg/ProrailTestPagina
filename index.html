@@ -231,15 +231,34 @@
       dropdownColorText.textContent = colorDropdown.value ? `Geselecteerde kleur: ${colorDropdown.value}` : '';
     });
 
-    // Checkboxes dieren
-    const animals = ['elephant', 'penguin', 'wolf', 'merel'];
-    animals.forEach(animal => {
-      const checkbox = document.getElementById(animal);
-      const img = document.getElementById(animal + 'Img');
-      checkbox.addEventListener('change', () => {
-        img.style.display = checkbox.checked ? 'block' : 'none';
-      });
-    });
+// Checkboxes dieren met DOM-verwijdering
+const animalIds = [
+  { id: "elephant", img: "elephantImg" },
+  { id: "penguin",  img: "penguinImg" },
+  { id: "wolf",     img: "wolfImg" },
+  { id: "merel",    img: "merelImg" }
+];
+
+const container = document.createElement("div");
+container.id = "animalContainer";
+document.querySelector(".checkbox-section").appendChild(container);
+
+animalIds.forEach(animal => {
+  const checkbox = document.getElementById(animal.id);
+  const img = document.getElementById(animal.img);
+
+  // Start met afbeeldingen volledig uit de DOM
+  img.remove();
+
+  checkbox.addEventListener("change", () => {
+    if (checkbox.checked) {
+      container.appendChild(img);
+    } else {
+      img.remove();
+    }
+  });
+});
+
   </script>
 
 </body>
