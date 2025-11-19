@@ -4,13 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ProrailTestpagina</title>
-<nav>
-  <a href="index.html" class="active">Home</a>
-  <a href="onderliggende_pagina.html">Controlepagina</a>
-</nav>
-
   <style>
-    /* ===== Algemene stijl ===== */
     body {
       font-family: "Helvetica Neue", Arial, sans-serif;
       background-color: #f8f8f8;
@@ -30,12 +24,14 @@
     }
 
     nav {
+      position: sticky;
+      top: 0;
       background-color: white;
       padding: 10px 0;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       text-align: center;
+      z-index: 1000;
     }
-    
 
     nav a {
       margin: 0 20px;
@@ -47,11 +43,6 @@
       border-bottom: 3px solid transparent;
       transition: 0.2s;
     }
-    
-    nav a:hover {
-      border-bottom: 3px solid #e2001a;
-    }
-    
 
     nav a:hover,
     nav a.active {
@@ -73,7 +64,8 @@
     }
 
     input, select, button {
-      margin: 8px 0;
+      display: block;
+      margin: 8px auto;
       padding: 10px;
       font-size: 16px;
       border-radius: 8px;
@@ -106,30 +98,28 @@
       text-align: center;
     }
 
-    .color-options, .checkbox-section {
     .checkbox-section {
       margin: 25px 0;
+      text-align: center;
     }
 
     label {
       margin: 0 8px;
       font-size: 16px;
+      display: inline-block;
     }
 
-    /* ===== Dierenafbeeldingen ===== */
     .animal-img {
       width: 150px;
       height: auto;
-      display: none;
       margin: 10px;
       border-radius: 10px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
 
-    .checkbox-item {
-      display: inline-block;
+    #animalContainer {
       text-align: center;
-      margin: 10px;
+      margin-top: 20px;
     }
 
     footer {
@@ -143,22 +133,23 @@
 <body>
 
   <header>ProrailTestpagina</header>
+  <!-- ✅ Navigatie correct geplaatst -->
+  <nav>
+  <a href="index.html" class="active">Home</a>
+  <a href="onderliggende_pagina.html">Controlepagina</a>
+  </nav>
 
   <main>
-
-    <!-- Typveld -->
     <h3>1️⃣ Typ iets</h3>
     <input type="text" id="inputField" placeholder="Typ hier iets...">
     <div id="output"></div>
 
-    <!-- Button met checktekst -->
     <h3>2️⃣ Klik op de knop</h3>
     <button id="checkButton">Klik hier</button>
     <div id="checkedText"></div>
 
-    <!-- Radiobuttons kleuren -->
     <h3>3️⃣ Kies een kleur (radiobuttons)</h3>
-    <div class="color-options">
+    <div class="color-options" style="text-align:center;">
       <label><input type="radio" name="kleur" value="Paars"> Paars</label>
       <label><input type="radio" name="kleur" value="Geel"> Geel</label>
       <label><input type="radio" name="kleur" value="Roze"> Roze</label>
@@ -166,7 +157,6 @@
       <div id="selectedColorText"></div>
     </div>
 
-    <!-- Dropdown kleuren -->
     <h3>4️⃣ Kies een kleur (dropdown)</h3>
     <select id="colorDropdown">
       <option value="">-- Kies een kleur --</option>
@@ -177,57 +167,31 @@
     </select>
     <div id="dropdownColorText"></div>
 
-    <!-- Checkboxes dieren -->
     <h3>5️⃣ Vink een dier aan</h3>
     <div class="checkbox-section">
-      <div class="checkbox-item">
-        <label><input type="checkbox" id="elephant"> Olifant</label><br>
-        <img id="elephantImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg" alt="Olifant">
-      </div>
-
-      <div class="checkbox-item">
-        <label><input type="checkbox" id="penguin"> Pinguïn</label><br>
-        <img id="penguinImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Humboldt-Pinguin_Spheniscus_humboldti_Tierpark_Hellabrunn-12.jpg" alt="Pinguïn">
-      </div>
-
-      <div class="checkbox-item">
-        <label><input type="checkbox" id="wolf"> Wolf</label><br>
-        <img id="wolfImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Loup_gris_%28Canis_lupus_%29.jpg" alt="Wolf">
-      </div>
-
-      <div class="checkbox-item">
-        <label><input type="checkbox" id="merel"> Merel</label><br>
-        <img id="merelImg" class="animal-img" src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Turdus_merula_1308.jpg" alt="Merel">
-      </div>
       <label><input type="checkbox" id="elephant"> Olifant</label>
       <label><input type="checkbox" id="penguin"> Pinguïn</label>
       <label><input type="checkbox" id="wolf"> Wolf</label>
       <label><input type="checkbox" id="merel"> Merel</label>
     </div>
-
     <div id="animalContainer"></div>
   </main>
 
   <footer>© 2025 ProrailTestpagina – Demo-omgeving</footer>
 
   <script>
-    // Woord laten verschijnen
-    // Typveld
     const inputField = document.getElementById('inputField');
     const outputDiv = document.getElementById('output');
     inputField.addEventListener('input', () => {
       outputDiv.textContent = inputField.value;
     });
 
-    // Check-button
     const checkButton = document.getElementById('checkButton');
     const checkedText = document.getElementById('checkedText');
     checkButton.addEventListener('click', () => {
       checkedText.textContent = "✅ Tekst is gecheckt!";
     });
 
-    // Radiobuttons kleuren
-    // Radiobuttons
     const radios = document.querySelectorAll('input[name="kleur"]');
     const selectedColorText = document.getElementById('selectedColorText');
     radios.forEach(radio => {
@@ -236,43 +200,12 @@
       });
     });
 
-    // Dropdown kleuren
-    // Dropdown
     const colorDropdown = document.getElementById('colorDropdown');
     const dropdownColorText = document.getElementById('dropdownColorText');
     colorDropdown.addEventListener('change', () => {
       dropdownColorText.textContent = colorDropdown.value ? `Geselecteerde kleur: ${colorDropdown.value}` : '';
     });
 
-// Checkboxes dieren met DOM-verwijdering
-const animalIds = [
-  { id: "elephant", img: "elephantImg" },
-  { id: "penguin",  img: "penguinImg" },
-  { id: "wolf",     img: "wolfImg" },
-  { id: "merel",    img: "merelImg" }
-];
-
-const container = document.createElement("div");
-container.id = "animalContainer";
-document.querySelector(".checkbox-section").appendChild(container);
-
-animalIds.forEach(animal => {
-  const checkbox = document.getElementById(animal.id);
-  const img = document.getElementById(animal.img);
-
-  // Start met afbeeldingen volledig uit de DOM
-  img.remove();
-
-  checkbox.addEventListener("change", () => {
-    if (checkbox.checked) {
-      container.appendChild(img);
-    } else {
-      img.remove();
-    }
-  });
-});
-
-    // Dynamische afbeeldingen
     const animals = [
       { id: "elephant", src: "https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg", alt: "Olifant" },
       { id: "penguin",  src: "https://upload.wikimedia.org/wikipedia/commons/0/04/Humboldt-Pinguin_Spheniscus_humboldti_Tierpark_Hellabrunn-12.jpg", alt: "Pinguïn" },
@@ -298,6 +231,5 @@ animalIds.forEach(animal => {
       });
     });
   </script>
-
 </body>
 </html>
