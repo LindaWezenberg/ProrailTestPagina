@@ -74,6 +74,15 @@
       margin-top: 15px;
       font-weight: bold;
     }
+
+    /* Rekenmachine styling */
+    .calc-buttons button {
+      width: 60px;
+      height: 60px;
+      font-size: 22px;
+      margin: 5px;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -96,13 +105,39 @@
     <div id="output" aria-live="polite"></div>
 
     <h3>Check button (alleen rechtermuisklik!)</h3>
-    <!-- extra oncontextmenu attribute als backup -->
     <button id="checkBtn" oncontextmenu="return false;">Check</button>
     <p id="checkResult" role="status"></p>
 
     <h3>Dubbelklik-knop</h3>
     <button id="doubleBtn">Dubbelklik op mij</button>
     <p id="doubleResult" role="status"></p>
+
+    <!-- ⭐⭐⭐ Rekenmachine -->
+    <h3>Rekenmachine</h3>
+
+    <input type="text" id="calcInput" placeholder="Typ een som, bijv. 12+8*2" style="width:80%; max-width:350px;">
+    <button id="calcBtn">Bereken</button>
+
+    <div id="calcOutput" style="font-size:22px; margin-top:15px; font-weight:bold; min-height:30px;"></div>
+
+    <!-- Optionele knoppen -->
+    <div class="calc-buttons">
+      <button data-val="7">7</button>
+      <button data-val="8">8</button>
+      <button data-val="9">9</button><br>
+      <button data-val="4">4</button>
+      <button data-val="5">5</button>
+      <button data-val="6">6</button><br>
+      <button data-val="1">1</button>
+      <button data-val="2">2</button>
+      <button data-val="3">3</button><br>
+      <button data-val="0">0</button>
+      <button data-val="+">+</button>
+      <button data-val="-">-</button><br>
+      <button data-val="*">*</button>
+      <button data-val="/">/</button>
+      <button id="calcEquals">=</button>
+    </div>
 
     <br><br>
     <a href="index.html">⬅️ Terug naar hoofdpagina</a>
@@ -120,28 +155,29 @@
       const doubleBtn = document.getElementById('doubleBtn');
       const doubleResult = document.getElementById('doubleResult');
 
-      // live tekst spiegeling
+      // =====================
+      // LIVE TEKST
+      // =====================
       textInput.addEventListener('input', () => {
         output.textContent = textInput.value;
       });
 
-      // --- Rechtermuisklik handler (robust) ---
+      // =====================
+      // CHECK BUTTON RECHTERKLIK
+      // =====================
       function doCheckAction() {
         checkResult.style.color = 'green';
         checkResult.textContent = '✔️ Rechtermuisklik gedetecteerd! Check uitgevoerd.';
       }
 
-      // contextmenu event — verhindert standaardmenu en stopt verdere handlers
       checkBtn.addEventListener('contextmenu', function(e) {
-        // alleen handelen als de event target daadwerkelijk de knop is
         if (e.target === checkBtn) {
-          e.preventDefault();               // voorkomt standaard contextmenu
-          e.stopImmediatePropagation();     // voorkomt dat andere handlers het nog overschrijven
+          e.preventDefault();
+          e.stopImmediatePropagation();
           doCheckAction();
         }
       }, { passive: false });
 
-      // linkermuisklik op knop blokkeren en instructie tonen
       checkBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -149,16 +185,16 @@
         checkResult.textContent = '❌ Gebruik een *rechtermuisklik* om te checken!';
       });
 
-      // --- Dubbelklik handler (robust) ---
+      // =====================
+      // DUBBELKLIK
+      // =====================
       doubleBtn.addEventListener('dblclick', function(e) {
-        // voorkom dat dubbele clicks ook een enkel-klik handler "overrulen" onbedoeld
         e.preventDefault();
         e.stopImmediatePropagation();
         doubleResult.style.color = 'blue';
         doubleResult.textContent = '✔️ Dubbelklik gedetecteerd!';
       });
 
-      // voorkomen dat enkele klik de bedoeling is
       doubleBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -166,9 +202,33 @@
         doubleResult.textContent = '❌ Dubbelklik vereist!';
       });
 
-      // Extra debug: als gebruiker per ongeluk buiten de knop rechtsklikt,
-      // laat standaard contextmenu intact (we blokkeren alleen op de knop).
-      // (Geen global contextmenu prevent, dus navigatie-menu blijft mogelijk buiten knop.)
+      // =====================
+      // ⭐⭐⭐ REKENMACHINE
+      // =====================
+      const calcInput = document.getElementById('calcInput');
+      const calcBtn = document.getElementById('calcBtn');
+      const calcOutput = document.getElementById('calcOutput');
+
+      function calculate() {
+        try {
+          // veiligere evaluatie dan eval
+          const result = Function(`"use strict"; return (${calcInput.value})`)();
+          calcOutput.textContent = "Uitkomst: " + result;
+        } catch {
+          calcOutput.textContent = "❌ Ongeldige som";
+        }
+      }
+
+      calcBtn.addEventListener('click', calculate);
+
+      // nummer + operator knoppen
+      document.querySelectorAll('.calc-buttons button[data-val]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          calcInput.value += btn.getAttribute('data-val');
+        });
+      });
+
+      document.getElementById('calcEquals').addEventListener('click', calculate);
     });
   </script>
 
