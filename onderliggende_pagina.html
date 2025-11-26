@@ -75,13 +75,15 @@
       font-weight: bold;
     }
 
-    /* Rekenmachine styling */
-    .calc-buttons button {
-      width: 60px;
-      height: 60px;
-      font-size: 22px;
-      margin: 5px;
-      border-radius: 10px;
+    /* Rekenmachine velden */
+    #calcOutput {
+      background: #eee;
+      font-weight: bold;
+      width: 200px;
+    }
+
+    .calcBtn {
+      width: 55px;
     }
   </style>
 </head>
@@ -112,59 +114,59 @@
     <button id="doubleBtn">Dubbelklik op mij</button>
     <p id="doubleResult" role="status"></p>
 
-    <!-- ⭐⭐⭐ Rekenmachine -->
+    <hr>
+
     <h3>Rekenmachine</h3>
 
-    <input type="text" id="calcInput" placeholder="Typ een som, bijv. 12+8*2" style="width:80%; max-width:350px;">
-    <button id="calcBtn">Bereken</button>
+    <input type="text" id="calcInput" placeholder="Typ een som, bijv. 10+10">
+    <input type="text" id="calcOutput" placeholder="Uitkomst" readonly>
+    <br>
 
-    <div id="calcOutput" style="font-size:22px; margin-top:15px; font-weight:bold; min-height:30px;"></div>
+    <button class="calcBtn" data-val="1">1</button>
+    <button class="calcBtn" data-val="2">2</button>
+    <button class="calcBtn" data-val="3">3</button>
+    <button class="calcBtn" data-val="+">+</button>
+    <br>
 
-    <!-- Optionele knoppen -->
-    <div class="calc-buttons">
-      <button data-val="7">7</button>
-      <button data-val="8">8</button>
-      <button data-val="9">9</button><br>
-      <button data-val="4">4</button>
-      <button data-val="5">5</button>
-      <button data-val="6">6</button><br>
-      <button data-val="1">1</button>
-      <button data-val="2">2</button>
-      <button data-val="3">3</button><br>
-      <button data-val="0">0</button>
-      <button data-val="+">+</button>
-      <button data-val="-">-</button><br>
-      <button data-val="*">*</button>
-      <button data-val="/">/</button>
-      <button id="calcEquals">=</button>
-    </div>
+    <button class="calcBtn" data-val="4">4</button>
+    <button class="calcBtn" data-val="5">5</button>
+    <button class="calcBtn" data-val="6">6</button>
+    <button class="calcBtn" data-val="-">-</button>
+    <br>
+
+    <button class="calcBtn" data-val="7">7</button>
+    <button class="calcBtn" data-val="8">8</button>
+    <button class="calcBtn" data-val="9">9</button>
+    <button class="calcBtn" data-val="*">*</button>
+    <br>
+
+    <button class="calcBtn" data-val="0">0</button>
+    <button class="calcBtn" data-val="/">/</button>
+    <button id="calcClear">C</button>
 
     <br><br>
     <a href="index.html">⬅️ Terug naar hoofdpagina</a>
   </div>
 
   <script>
-    // wacht tot DOM klaar is
     document.addEventListener('DOMContentLoaded', () => {
+
+      // ======================
+      // Live tekstweergave
+      // ======================
       const textInput = document.getElementById('textInput');
       const output = document.getElementById('output');
 
-      const checkBtn = document.getElementById('checkBtn');
-      const checkResult = document.getElementById('checkResult');
-
-      const doubleBtn = document.getElementById('doubleBtn');
-      const doubleResult = document.getElementById('doubleResult');
-
-      // =====================
-      // LIVE TEKST
-      // =====================
       textInput.addEventListener('input', () => {
         output.textContent = textInput.value;
       });
 
-      // =====================
-      // CHECK BUTTON RECHTERKLIK
-      // =====================
+      // ======================
+      // Rechterklik-knop
+      // ======================
+      const checkBtn = document.getElementById('checkBtn');
+      const checkResult = document.getElementById('checkResult');
+
       function doCheckAction() {
         checkResult.style.color = 'green';
         checkResult.textContent = '✔️ Rechtermuisklik gedetecteerd! Check uitgevoerd.';
@@ -185,9 +187,12 @@
         checkResult.textContent = '❌ Gebruik een *rechtermuisklik* om te checken!';
       });
 
-      // =====================
-      // DUBBELKLIK
-      // =====================
+      // ======================
+      // Dubbelklik-knop
+      // ======================
+      const doubleBtn = document.getElementById('doubleBtn');
+      const doubleResult = document.getElementById('doubleResult');
+
       doubleBtn.addEventListener('dblclick', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -202,33 +207,45 @@
         doubleResult.textContent = '❌ Dubbelklik vereist!';
       });
 
-      // =====================
-      // ⭐⭐⭐ REKENMACHINE
-      // =====================
+      // ======================
+      // Rekenmachine
+      // ======================
+
       const calcInput = document.getElementById('calcInput');
-      const calcBtn = document.getElementById('calcBtn');
       const calcOutput = document.getElementById('calcOutput');
+      const calcButtons = document.querySelectorAll('.calcBtn');
+      const calcClear = document.getElementById('calcClear');
 
-      function calculate() {
-        try {
-          // veiligere evaluatie dan eval
-          const result = Function(`"use strict"; return (${calcInput.value})`)();
-          calcOutput.textContent = "Uitkomst: " + result;
-        } catch {
-          calcOutput.textContent = "❌ Ongeldige som";
-        }
-      }
-
-      calcBtn.addEventListener('click', calculate);
-
-      // nummer + operator knoppen
-      document.querySelectorAll('.calc-buttons button[data-val]').forEach(btn => {
+      calcButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-          calcInput.value += btn.getAttribute('data-val');
+          calcInput.value += btn.dataset.val;
+          calcInput.focus();
         });
       });
 
-      document.getElementById('calcEquals').addEventListener('click', calculate);
+      calcClear.addEventListener('click', () => {
+        calcInput.value = "";
+        calcOutput.value = "";
+        calcInput.focus();
+      });
+
+      function calculateExpression(expr) {
+        try {
+          if (!/^[0-9+\-*/().\s]+$/.test(expr)) return "✖";
+          const result = Function("return (" + expr + ")")();
+          return isFinite(result) ? result : "✖";
+        } catch {
+          return "✖";
+        }
+      }
+
+      calcInput.addEventListener('keydown', e => {
+        if (e.key === "Enter") {
+          const result = calculateExpression(calcInput.value);
+          calcOutput.value = result;
+        }
+      });
+
     });
   </script>
 
